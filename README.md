@@ -1,2 +1,2 @@
 # NimiPA
-Extract useful data from .IPA files
+Extract useful data from .IPA files.
