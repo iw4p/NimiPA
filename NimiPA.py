@@ -6,7 +6,6 @@ import plistlib
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 RootDir1 = ROOT_DIR + '/Extract'
-TargetFolder = ROOT_DIR+'/Data'
 
 ipaName = raw_input("Enter the ipa name without .ipa extension: ")
 
@@ -14,16 +13,16 @@ with zipfile.ZipFile( ROOT_DIR + '/' + ipaName + '.ipa', 'r') as zip_ref:
     zip_ref.extractall( ROOT_DIR + '/Extract')
 
 
-def makeFolders(directoryName):
+def makeFolder(directoryName):
     if not os.path.exists(ROOT_DIR + directoryName):
         os.makedirs(ROOT_DIR + directoryName)
 
 
-pngDir = makeFolders('/Data/PNGs')
-makeFolders('/Data/Plists')
+makeFolder('/Data/PNGs')
+makeFolder('/Data/Plists')
 
 def execFileFinder(name):
-    pl = plistlib.readPlist("/home/n1m4/Desktop/NimiPA/Data/Plists/Info.plist")
+    pl = plistlib.readPlist(ROOT_DIR + "/Data/Plists/Info.plist")
     item = pl[name]
     return item
 
@@ -39,7 +38,7 @@ def findFiles(root, targetPath, extension):
 def showData():
     findFiles(RootDir1, ROOT_DIR + '/Data/Plists/', extension = '.plist')
     findFiles(RootDir1, ROOT_DIR + '/Data/PNGs/', extension = '.png')
-    findFiles(RootDir1, TargetFolder, extension = execFileFinder("CFBundleName"))
+    findFiles(RootDir1, ROOT_DIR + '/Data', extension = execFileFinder("CFBundleName"))
 
     print("App Name (CFBundleName): " + execFileFinder("CFBundleName"))
     print("Bundle ID (CFBundleIdentifier): " + execFileFinder("CFBundleIdentifier"))
@@ -48,4 +47,4 @@ def showData():
 
 showData()
 
-shutil.rmtree("/home/n1m4/Desktop/NimiPA/Extract")
+shutil.rmtree(RootDir1)
