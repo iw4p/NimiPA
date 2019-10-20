@@ -3,22 +3,27 @@ import os
 import shutil
 import plistlib
 
-ROOT_DIR = os.path.abspath(os.curdir)
-print(ROOT_DIR)
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-with zipfile.ZipFile('/home/n1m4/Desktop/NimiPA/test_app.ipa', 'r') as zip_ref:
-    zip_ref.extractall('/home/n1m4/Desktop/NimiPA/Extract')
+RootDir1 = ROOT_DIR + '/Extract'
+TargetFolder = ROOT_DIR+'/Data'
 
-directory = (ROOT_DIR + '/Data')
+ipaName = raw_input("Enter the ipa name without .ipa extension: ")
 
-if not os.path.exists(directory):
-    os.makedirs(directory)
+with zipfile.ZipFile( ROOT_DIR + '/' + ipaName + '.ipa', 'r') as zip_ref:
+    zip_ref.extractall( ROOT_DIR + '/Extract')
 
-RootDir1 = r'/home/n1m4/Desktop/NimiPA/Extract'
-TargetFolder = r'/home/n1m4/Desktop/NimiPA/Data'
+
+def makeFolders(directoryName):
+    if not os.path.exists(ROOT_DIR + directoryName):
+        os.makedirs(ROOT_DIR + directoryName)
+
+
+pngDir = makeFolders('/Data/PNGs')
+makeFolders('/Data/Plists')
 
 def execFileFinder(name):
-    pl = plistlib.readPlist("/home/n1m4/Desktop/NimiPA/Data/Info.plist")
+    pl = plistlib.readPlist("/home/n1m4/Desktop/NimiPA/Data/Plists/Info.plist")
     item = pl[name]
     return item
 
@@ -32,8 +37,8 @@ def findFiles(root, targetPath, extension):
 
 
 def showData():
-    findFiles(RootDir1, TargetFolder, extension = 'Info.plist')
-    findFiles(RootDir1, TargetFolder, extension = '.png')
+    findFiles(RootDir1, ROOT_DIR + '/Data/Plists/', extension = '.plist')
+    findFiles(RootDir1, ROOT_DIR + '/Data/PNGs/', extension = '.png')
     findFiles(RootDir1, TargetFolder, extension = execFileFinder("CFBundleName"))
 
     print("App Name (CFBundleName): " + execFileFinder("CFBundleName"))
