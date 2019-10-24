@@ -4,7 +4,7 @@ exec file, Icons, Build number, Version.
 
 ## Usage
 ```
-python -u NimiPA.py
+python -u NimiPAs.py
 ```
 
 ## License 
