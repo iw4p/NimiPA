@@ -1,0 +1,85 @@
+import sys
+from PyQt5 import *
+from PyQt5.QtWidgets import QFileDialog
+import funcs
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("NimiPA")
+        MainWindow.resize(577, 271)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(240, 180, 89, 25))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.onBtn1)
+
+        self.splitter_3 = QtWidgets.QSplitter(self.centralwidget)
+        self.splitter_3.setGeometry(QtCore.QRect(90, 30, 391, 121))
+        self.splitter_3.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter_3.setObjectName("splitter_3")
+        self.splitter = QtWidgets.QSplitter(self.splitter_3)
+        self.splitter.setOrientation(QtCore.Qt.Vertical)
+        self.splitter.setObjectName("splitter")
+        self.label = QtWidgets.QLabel(self.splitter)
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.splitter)
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(self.splitter)
+        self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(self.splitter)
+        self.label_4.setObjectName("label_4")
+        self.splitter_2 = QtWidgets.QSplitter(self.splitter_3)
+        self.splitter_2.setOrientation(QtCore.Qt.Vertical)
+        self.splitter_2.setObjectName("splitter_2")
+        self.label_9 = QtWidgets.QLabel(self.splitter_2)
+        self.label_9.setObjectName("label_9")
+        self.label_10 = QtWidgets.QLabel(self.splitter_2)
+        self.label_10.setObjectName("label_10")
+        self.label_11 = QtWidgets.QLabel(self.splitter_2)
+        self.label_11.setObjectName("label_11")
+        self.label_12 = QtWidgets.QLabel(self.splitter_2)
+        self.label_12.setObjectName("label_12")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 577, 22))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("NimiPA", "NimiPA"))
+        self.pushButton.setText(_translate("NimiPA", "Choose IPA"))
+        self.label.setText(_translate("NimiPA", "App Name"))
+        self.label_2.setText(_translate("NimiPA", "Bundle ID"))
+        self.label_3.setText(_translate("NimiPA", "Version"))
+        self.label_4.setText(_translate("NimiPA", "Build Number"))
+        self.label_9.setText(_translate("NimiPA", "App Name"))
+        self.label_10.setText(_translate("NimiPA", "Bundle ID"))
+        self.label_11.setText(_translate("NimiPA", "Version"))
+        self.label_12.setText(_translate("NimiPA", "Build Number"))
+
+    def onBtn1(self):
+        # self.fileName, _  = QFileDialog.getOpenFileName(self, 'Open file', '/Users/Jarvis/Desktop/')
+        options = QFileDialog.Options()
+        fileName, _ = QFileDialog.getOpenFileName(self,"Choose IPA file: ", "","IPA File (*.ipa)", options=options)
+        options |= QFileDialog.DontUseNativeDialog
+        if fileName:
+            print(fileName)
+            print(funcs.ROOT_DIR)
+            funcs.getIPA(fileName, funcs.ROOT_DIR)
+            funcs.showData()
+            appName = funcs.CFBundleName()
+            bundleID = funcs.CFBundleIdentifier()
+            version = funcs.CFBundleShortVersionString()
+            build = funcs.CFBundleVersion()
+            self.label_9.setText(appName)
+            self.label_10.setText(bundleID)
+            self.label_11.setText(version)
+            self.label_12.setText(build)
